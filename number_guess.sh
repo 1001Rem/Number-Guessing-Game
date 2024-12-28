@@ -28,3 +28,9 @@ fi
 
 echo "Guess the secret number between 1 and 1000:"
 read INPUT
+
+while [[ ! $INPUT =~ ^[0-9]+$ ]]
+do
+echo "That is not an integer, guess again:"
+read INPUT
+done
