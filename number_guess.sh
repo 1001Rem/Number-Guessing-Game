@@ -74,6 +74,7 @@ echo -e "\nYou guessed it in $TRIES tries. The secret number was $R_NO. Nice job
 # #if player is new
 if [[ $ISNEW = 'true' ]]
 then
+
 #insert current first game stats
 ($PSQL "INSERT INTO users(username, games_played, best_game) VALUES('$NAME', 1, $TRIES)") > /dev/null
 
@@ -83,10 +84,13 @@ fi
 if [[ $ISNEW = 'false' ]]
 then
 
+#increase game count by + 1
 ($PSQL "UPDATE users SET games_played = games_played + 1 WHERE username = '$NAME'") > /dev/null
 
+#get best game score and compare it against current tries
 BEST_GAMES=$($PSQL "SELECT best_game FROM users WHERE username = '$NAME'")
 
+#if tries is less than the saved score, upate with the current score
 if [[ $TRIES -lt $BEST_GAMES ]]
 then
 
